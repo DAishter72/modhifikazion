@@ -2,12 +2,6 @@ from django.views.generic import ListView
 from django.utils import timezone
 from home.models import Promocion, Producto, Categoria
 
-<<<<<<< HEAD
-# Create your views here.
-
-def home(request):
-    return render(request, 'home.html')
-=======
 
 class HomeListView(ListView):
     """Vista para el inicio junto a una lista de promociones"""
@@ -73,4 +67,3 @@ class PromocionListView(ListView):
         context = super().get_context_data(**kwargs)
         # Puedes agregar más contexto aquí si lo necesitas
         return context
->>>>>>> 41abdc3a90d09158f03cc514a312f4e2a83f6864
