@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pedido Confirmado{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow-sm p-4 bg-light">
+    <h2 class="text-center mb-4 text-success">¡Pedido Confirmado!</h2>
+
+    <p class="text-center">Gracias por tu compra, <strong>{{ request.user.first_name }}</strong>. Aquí tienes el resumen de tu pedido:</p>
+
+    <hr>
+
+    <!-- Información del cliente -->
+    <div class="mb-4">
+      <h5>Datos del Cliente:</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Nombre:</strong> {{ request.user.first_name }} {{ request.user.last_name }}</li>
+        <li class="list-group-item"><strong>Correo:</strong> {{ request.user.email }}</li>
+        <li class="list-group-item"><strong>Dirección:</strong> {{ pedido.direccion }}</li>
+        <li class="list-group-item"><strong>Método de Pago:</strong> {{ pedido.metodo_pago|capfirst }}</li>
+        <li class="list-group-item"><strong>Fecha:</strong> {{ pedido.fecha|date:"d/m/Y H:i" }}</li>
+      </ul>
+    </div>
+
+    <!-- Detalle del pedido -->
+    <div class="mb-4">
+      <h5>Detalle del Pedido:</h5>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Plato</th>
+            <th>Cantidad</th>
+            <th>Observaciones</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in pedido.items.all %}
+            <tr>
+              <td>{{ item.plato.nombre }}</td>
+              <td>{{ item.cantidad }}</td>
+              <td>{{ item.observaciones|default:"—" }}</td>
+              <td>${{ item.subtotal }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Total -->
+    <div class="text-end">
+      <h4>Total: ${{ pedido.total }}</h4>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="{% url 'pagina_principal' %}" class="btn btn-outline-primary">Volver al Menú</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

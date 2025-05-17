@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirmar Pedido{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center mb-4">Confirmar Pedido</h2>
+
+  <div class="row">
+    <!-- Formulario del cliente -->
+    <div class="col-md-6">
+      <form method="post" class="card p-4 shadow-sm border-0 bg-light">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" name="nombre" id="nombre" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input type="text" name="apellido" id="apellido" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="tel" name="telefono" id="telefono" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="direccion" class="form-label">Dirección</label>
+          <textarea name="direccion" id="direccion" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="metodo_pago" class="form-label">Método de Pago</label>
+          <select name="metodo_pago" id="metodo_pago" class="form-select" required>
+            <option value="">Seleccione...</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia</option>
+            <option value="pago_movil">Pago Móvil</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100 mt-2">Realizar Pedido</button>
+      </form>
+    </div>
+
+    <!-- Resumen del pedido -->
+    <div class="col-md-6">
+      <div class="card shadow-sm p-4 bg-white">
+        <h4 class="mb-3">Resumen del Pedido</h4>
+        <ul class="list-group mb-3">
+          {% for item in items %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ item.plato.nombre }}</strong><br>
+                <small>Cant: {{ item.cantidad }} | Obs: {{ item.observaciones|default:"—" }}</small>
+              </div>
+              <span>${{ item.subtotal }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="d-flex justify-content-between">
+          <strong>Total:</strong>
+          <strong>${{ total }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
