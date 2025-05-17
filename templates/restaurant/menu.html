@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menú - Gustou Restaurant</title>
+  </head>
+  <body>
+    {% include 'includes/navbar.html' %}
+
+    <div class="menu-container">
+      <h1>Nuestro Menú</h1>
+
+      {% if categorias_con_productos %}
+      {% for categoria in categorias_con_productos %}
+      <div class="categoria-section">
+        <h2 class="categoria-title">{{ categoria.nombre }}</h2>
+        {% if categoria.descripcion %}
+        <p>{{ categoria.descripcion }}</p>
+        {% endif %}
+
+        <div class="productos-grid">
+          {% for producto in categoria.producto_set.all %}
+          {% if producto.disponible %}
+          <div class="producto-card">
+            {% if producto.imagen %}
+            <img
+              class="producto-imagen"
+              src="{{ producto.imagen.url }}"
+              alt="{{ producto.nombre }}"
+            />
+            {% else %}
+            <div class="producto-imagen" style="background: #f5f5f5"></div>
+            {% endif %}
+
+            <div class="producto-body">
+              <h3 class="producto-nombre">{{ producto.nombre }}</h3>
+              {% if producto.descripcion %}
+              <p class="producto-descripcion">{{ producto.descripcion }}</p>
+              {% endif %}
+              <p class="producto-precio">${{ producto.precio }}</p>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <div class="sin-productos">
+        <p>Actualmente no hay productos disponibles en el menú.</p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
