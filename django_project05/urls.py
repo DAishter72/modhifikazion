@@ -16,8 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+<<<<<<< HEAD
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('carrito/', include('carrito.urls')),
+=======
+<<<<<<< HEAD
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('auth', include('auth.urls')),
+    path('', include('home.urls')),
+>>>>>>> 328282bda74e536f6d213c48022c6b05e304dba8
 ]
+=======
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('home.urls'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+>>>>>>> 41abdc3a90d09158f03cc514a312f4e2a83f6864

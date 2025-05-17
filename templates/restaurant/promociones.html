@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promociones - Gustou Restaurant</title>
+  </head>
+  <body>
+    {% include 'includes/navbar.html' %}
+
+    <div class="promociones-container">
+      <h1>Nuestras Promociones</h1>
+
+      {% if promociones %} {% for promocion in promociones %}
+      <div class="promocion-card">
+        <div class="promocion-header">
+          <h2 class="promocion-title">{{ promocion.nombre }}</h2>
+          <span class="promocion-descuento">{{ promocion.descuento }}% DE DESCUENTO</span>
+        </div>
+
+        <div class="promocion-body">
+          {% if promocion.imagen %}
+          <img
+            class="promocion-imagen"
+            src="{{ promocion.imagen.url }}"
+            alt="{{ promocion.nombre }}"
+          />
+          {% endif %}
+
+          <div>
+            <p>{{ promocion.descripcion }}</p>
+
+            <div class="productos-lista">
+              <h4>Productos incluidos:</h4>
+              {% for producto in promocion.productos.all %}
+              <div class="producto-item">
+                <span>{{ producto.nombre }}</span>
+                <span><strong>${{ producto.precio }}</strong></span>
+              </div>
+              {% endfor %}
+            </div>
+
+            <p>
+              <strong>Válida hasta:</strong> {{ promocion.fecha_fin|date:"d/m/Y" }}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- Paginación -->
+      <div class="pagination">
+        <span class="step-links">
+          {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; Primera</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+          {% endif %}
+
+          <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+          </span>
+
+          {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+      {% else %}
+      <div class="no-promociones">
+        <p>
+          Actualmente no hay promociones disponibles. Vuelve pronto para conocer
+          nuestras ofertas especiales.
+        </p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

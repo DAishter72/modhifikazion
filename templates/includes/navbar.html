@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="navbar">
+      <span>Gustou Restaurant</span>
+      <ul>
+        <li><a href="{% url 'menu' %}">Menu</a></li>
+        <li><a href="{% url 'promociones' %}">Promociones</a></li>
+
+        {% if user.is_authenticated %}
+        <!-- Mostrar estos elementos cuando el usuario está logueado -->
+        <li><a href="#">Perfil</a></li>
+        <li>
+          <form action="#" method="post">
+            {% csrf_token %}
+            <button type="submit">Cerrar sesión</button>
+          </form>
+        </li>
+        <li><span>Hola, {{ user.username }}</span></li>
+        {% else %}
+        <!-- Mostrar estos elementos cuando no hay usuario logueado -->
+        <li><a href="#">Inicio de sesión</a></li>
+        <li><a href="#">Registrarse</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </body>
+</html>
