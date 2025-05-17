@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
     'carrito.apps.CarritoConfig',
-    'auth.apps.AuthConfig'
 ]
 
 MIDDLEWARE = [

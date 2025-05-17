@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gustou Restaurant</title>
+  </head>
+  <body>
+    {% include 'includes/navbar.html' %}
+    <div class="welmsj">
+      <!-- Mensaje de bienvenida -->
+      <h1>Bienvenido a "Gustou Restaurant"</h1>
+      <p>Con la mejor sazon de la tierra oriental</p>
+    </div>
+    <div class="promtable">
+      <h2>Promociones</h2>
+      
+      {% if promociones %}
+        <div class="promociones-container">
+          {% for promocion in promociones %}
+            <div class="promocion-card">
+              {% if promocion.imagen %}
+                <img src="{{ promocion.imagen.url }}" alt="{{ promocion.nombre }}">
+              {% endif %}
+              <h3 class="promocion-title">{{ promocion.nombre }}</h3>
+              <p>{{ promocion.descripcion }}</p>
+              
+              <p><span class="promocion-descuento">{{ promocion.descuento }}% DE DESCUENTO</span></p>
+              
+              <h4>Productos incluidos:</h4>
+              <ul>
+                {% for producto in promocion.productos.all %}
+                  <li>{{ producto.nombre }} - ${{ producto.precio }}</li>
+                {% endfor %}
+              </ul>
+              
+              <p>Válida hasta: {{ promocion.fecha_fin|date:"d/m/Y" }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>Actualmente no hay promociones disponibles. Vuelve pronto para conocer nuestras ofertas.</p>
+      {% endif %}
+    </div>
+    <button><a href="{% url 'menu' %}">Menu</a></button>
+  </body>
+</html>
