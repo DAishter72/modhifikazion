@@ -24,8 +24,8 @@
         <li><span>Hola, {{ user.username }}</span></li>
         {% else %}
         <!-- Mostrar estos elementos cuando no hay usuario logueado -->
-        <li><a href="#">Inicio de sesión</a></li>
-        <li><a href="#">Registrarse</a></li>
+        <li><a href="{% url 'login' %}">Inicio de sesión</a></li>
+        <li><a href="{% url 'signup' %}">Registrarse</a></li>
         {% endif %}
       </ul>
     </div>

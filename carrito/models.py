@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from django.db import models
-from django.contrib.auth.models import User
 
 class Pedido(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -14,7 +12,9 @@ class Pedido(models.Model):
     def __str__(self):
         return f"Pedido #{self.id} de {self.usuario.username}"
 
-#Modelo del plato
+# Modelo del plato
+
+
 class Plato(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
@@ -24,7 +24,9 @@ class Plato(models.Model):
     def __str__(self):
         return self.nombre
 
-#Modelo del carrito
+# Modelo del carrito
+
+
 class Carrito(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     creado_en = models.DateTimeField(auto_now_add=True)
@@ -32,9 +34,12 @@ class Carrito(models.Model):
     def __str__(self):
         return f"Carrito de {self.usuario.username}"
 
-#Modelo del item del carrito
-class ItemCarrito(models.Model):
-    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name='items')
+# Modelo del item del carrito
+
+
+class CarritoItem(models.Model):
+    carrito = models.ForeignKey(
+        Carrito, on_delete=models.CASCADE, related_name='items')
     plato = models.ForeignKey(Plato, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
     observaciones = models.TextField(blank=True, null=True)
@@ -42,9 +47,6 @@ class ItemCarrito(models.Model):
 
     def __str__(self):
         return f"{self.plato.nombre} x{self.cantidad}"
-    
+
     def subtotal(self):
         return self.plato.precio * self.cantidad
-
-
-
