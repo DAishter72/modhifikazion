@@ -19,7 +19,7 @@
         <!-- Mostrar estos elementos cuando el usuario está logueado -->
         <li><a href="#">Perfil</a></li>
         <li>
-          <form action="#" method="post">
+          <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
             <button type="submit">Cerrar sesión</button>
           </form>
