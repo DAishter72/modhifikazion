@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.utils import timezone
 from home.models import Promocion, Producto, Categoria
@@ -25,11 +26,12 @@ class HomeListView(ListView):
         return context
 
 
-class MenuListView(ListView):
+class MenuListView(LoginRequiredMixin, ListView):
     """Vista para mostrar el menu con productos por categoria"""
     model = Producto
     template_name = 'restaurant/menu.html'
     context_object_name = 'categorias_con_productos'
+    login_url = 'login'
 
     def get_queryset(self):
         # Obtener todas las categorías con sus productos disponibles
@@ -45,13 +47,14 @@ class MenuListView(ListView):
         return context
 
 
-class PromocionListView(ListView):
+class PromocionListView(LoginRequiredMixin, ListView):
     """Vista para mostrar promociones activas"""
     model = Promocion
     template_name = 'restaurant/promociones.html'
     context_object_name = 'promociones'
     paginate_by = 10  # Paginación de 10 elementos por página
     ordering = ['-fecha_inicio']  # Ordenar por fecha más reciente primero
+    login_url = 'login'
 
     def get_queryset(self):
         """Filtra solo promociones activas y vigentes"""

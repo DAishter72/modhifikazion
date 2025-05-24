@@ -1,12 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   </head>
   <body>
     <div class="navbar">
+      <button class="navbar-toggle">≡</button>
       <span>Gustou Restaurant</span>
       <ul>
         <li><a href="{% url 'menu' %}">Menu</a></li>
@@ -27,7 +30,61 @@
         <li><a href="{% url 'login' %}">Inicio de sesión</a></li>
         <li><a href="{% url 'signup' %}">Registrarse</a></li>
         {% endif %}
+        <li class="theme-container">
+          <button class="theme-toggle" aria-label="Cambiar tema">
+            <i class="toggle-icon">🌓</i>
+            <span class="theme-text">Modo Oscuro</span>
+          </button>
+        </li>
       </ul>
     </div>
+
+    <script>
+      document
+        .querySelector(".navbar-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".navbar").classList.toggle("collapsed");
+        });
+    </script>
+    <script>
+      // Toggle navbar
+      document
+        .querySelector(".navbar-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".navbar").classList.toggle("collapsed");
+        });
+
+      // Toggle modo oscuro/claro
+      const themeToggle = document.querySelector(".theme-toggle");
+      const themeText = document.querySelector(".theme-text");
+
+      // Comprobar preferencias del sistema o almacenamiento local
+      const savedTheme =
+        localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light");
+      setTheme(savedTheme);
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+        setTheme(newTheme);
+        localStorage.setItem("theme", newTheme);
+      });
+
+      function setTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+
+        if (theme === "dark") {
+          themeText.textContent = "Modo Claro";
+          document.querySelector(".toggle-icon").textContent = "☀️";
+        } else {
+          themeText.textContent = "Modo Oscuro";
+          document.querySelector(".toggle-icon").textContent = "🌙";
+        }
+      }
+    </script>
   </body>
 </html>
